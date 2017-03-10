@@ -1,0 +1,30 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{% if language %}{{ language }}{% else %}ru{% endif %}">
+<head>
+	<title>{% block title %}title{% endblock %}</title>
+	<meta charset="utf-8">
+	<!-- <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}"> -->
+	<!-- <link rel="stylesheet" href="{% static 'core/css/bootstrap-theme.css' %}"> -->
+	<link rel="stylesheet" href="{% static 'core/css/base.css' %}" >
+	<link rel="stylesheet" href="{% static 'core/css/style.css' %}" >
+
+	<script src="{% static 'core/js/jquery.js' %}"></script>
+	{% block head %}{% endblock %}
+</head>
+<body>
+	<div id="beta">beta version</div>
+	<header>
+
+	</header>
+	<div id="content">
+{% block content %}{% endblock %}
+	</div>
+	<footer>
+
+	</footer>
+
+	<script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

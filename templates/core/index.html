@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}IT microphone{% endblock %}
+
+{% block content %}
+<h2 class="events-header">{% trans "Предстоящие события" %}</h2>
+<div class="events-row">
+	{% for event in events %}
+		<div class="event">
+			<div class="theme">{{ event.theme }}</div>
+			<div class="wrapper">
+				<div class="options">
+					<div class="option">
+						<div class="key">Лектор</div>
+						<div class="value">{{ event.lector }}</div>
+					</div>
+					<div class="option">
+						<div class="key">Место проведения</div>
+						<div class="value">{{ event.location }}</div>
+					</div>
+					<div class="option">
+						<div class="key">Дата и время начала</div>
+						<div class="value">{{ event.event_start_time }}</div>
+					</div>
+					<div class="option">
+						<div class="key">Длительность</div>
+						<div class="value">{{ event.duration }}</div>
+					</div>
+					<div class="option">
+						<div class="key">Необходимо подписчиков</div>
+						<div class="value">{{ event.need_subscribers }}</div>
+					</div>
+				</div>
+
+				<div class="description">
+				{{ event.description }}
+				</div>
+			</div>
+			<div class="buttons">
+				<button class="more-button" onclick="showEventPopup({{ event.pk }})">Подробнее</button>
+				<button class="subscribe-button" onclick="alert('всё ещё не работает')">Подписаться</button>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+<div id="event_popup" class="anim_event_popup_showing" onclick="hideEventPopup()" style="display: none;">
+	<div class="close-button">X</div>
+	<iframe id="event_popup_frame" class="anim_event_popup_frame_showing"  src="/en/admin"  frameborder="no">
+	{% blocktrans %}У вас плохой браузер :({% endblocktrans %}
+	</iframe>
+</div>
+
+<script>
+function showEventPopup(id) {
+	// да, костыль, но работает же!
+    event_popup.getElementsByTagName("iframe")[0].src = "{% url 'core:event_detail' pk=999 %}".replace(999, id);
+    event_popup.style.display = "block";
+    event_popup_frame.style.webkitAnimationName = 'event_popup_frame_showing';
+    event_popup.style.webkitAnimationName = 'event_popup_showing';
+}
+function hideEventPopup() {
+	event_popup_frame.style.webkitAnimationName = 'event_popup_frame_hiding';
+	event_popup.style.webkitAnimationName = 'event_popup_hiding';
+	setTimeout(function() {
+		event_popup.style.display='none';
+	}, 400)
+}
+</script>
+
+
+
+{% endblock %}

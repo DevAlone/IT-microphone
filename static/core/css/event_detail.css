@@ -1,0 +1,78 @@
+header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: stretch;
+	align-content: stretch;
+	min-height: 60px;
+}
+header .button-wrapper {
+	
+}
+header .subscribe-button {
+	margin-top: 7px;
+	height: 45px;
+	display: inline-block;
+}
+.theme {
+	/*display: inline-block;
+	width: 80%;*/
+	margin: 10px 20px;
+	text-align: center;
+	font-size: 35px;
+}
+
+#content {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: stretch;
+	align-content: stretch;
+}
+#content > div {
+	margin: 10px;
+}
+
+.options {
+	width: 600px;
+
+} 
+.option {
+	background-color: #eee;
+	margin: 10px 0;
+}
+.option .key, .option .value {
+	display: inline-block;
+	padding: 5px 10px;
+}
+.option .key {
+	min-width: 40%;
+}
+.option .value {
+
+}
+.description, .chat {
+	width: 90%;
+
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.subscribe-button {
+	border: none;
+	padding: 12px 25px;
+	/*margin: 5px 0;*/
+	border-radius: 4px;
+}
+.event button:hover {
+	/*background-color: #ddd;*/
+}
+.subscribe-button {
+	background-color: #aea;
+}
+.subscribe-button:hover {
+	background-color: #ada;
+}

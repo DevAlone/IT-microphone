@@ -1,0 +1,56 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{% if language %}{{ language }}{% else %}ru{% endif %}">
+<head>
+	<title>{{ event }}</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="{% static 'core/css/base.css' %}" >
+	<link rel="stylesheet" href="{% static 'core/css/event_detail.css' %}" >
+
+	<script src="{% static 'core/js/jquery.js' %}"></script>
+</head>
+<body>
+	<header>
+		<h1 class="theme">{{ event.theme }}</h1>
+		<div class="button-wrapper">
+			<button class="subscribe-button" onclick="alert('subscribe')">Подписаться</button>
+		</div>
+	</header>
+	<div id="content">
+		<div class="lector">
+			<div class="avatar">
+			avatar will be here
+			</div>
+		</div>
+		<div class="options">
+			<div class="option">
+				<div class="key">Лектор</div>
+				<div class="value">{{ event.lector }}</div>
+			</div>
+			<div class="option">
+				<div class="key">Место проведения</div>
+				<div class="value">{{ event.location }}</div>
+			</div>
+			<div class="option">
+				<div class="key">Дата и время начала</div>
+				<div class="value">{{ event.event_start_time }}</div>
+			</div>
+			<div class="option">
+				<div class="key">Длительность</div>
+				<div class="value">{{ event.duration }}</div>
+			</div>
+			<div class="option">
+				<div class="key">Необходимо подписчиков</div>
+				<div class="value">{{ event.need_subscribers }}</div>
+			</div>
+		</div>
+		<div class="description">
+		{{ event.description }}
+		</div>
+		<div class="chat">
+		chat will be here
+		</div>
+	</div>
+</body>
+</html>
