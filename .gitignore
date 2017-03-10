@@ -1,3 +1,4 @@
 it/settings.py
 it/gunicorn.conf.py
 .*
+__pycache__
