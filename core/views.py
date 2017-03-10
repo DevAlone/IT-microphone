@@ -28,12 +28,12 @@ def eventDetail(request, pk=None):
 
     #subscribed = request.session['anonim_subscribed' + pk] if \
     #    'anonim_subscribed' + pk in request.session else False
-    subscribed = event.isUserSubscribed()
+    event.subscribed = request.session['anonim_subscribed' + \
+        str(event.pk)] if 'anonim_subscribed' + str(event.pk) in \
+        request.session else False
 
-    return HttpResponse(subscribed)
     return render(request, 'core/event_detail.html', {
         'event': event,
-        'subscribed': subscribed
     })
 
 

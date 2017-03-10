@@ -10,7 +10,7 @@ header {
 header .button-wrapper {
 	
 }
-header .subscribe-button {
+header .button-wrapper button {
 	margin-top: 7px;
 	height: 45px;
 	display: inline-block;
@@ -61,7 +61,7 @@ header .subscribe-button {
 	border-radius: 4px;
 }
 
-.subscribe-button {
+header .button-wrapper button {
 	border: none;
 	padding: 12px 25px;
 	/*margin: 5px 0;*/
@@ -75,4 +75,11 @@ header .subscribe-button {
 }
 .subscribe-button:hover {
 	background-color: #ada;
+}
+
+.subscribed-button {
+	background-color: #eee !important;
+}
+.subscribed-button:hover {
+	background-color: #ddd !important;
 }
