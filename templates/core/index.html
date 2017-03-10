@@ -9,7 +9,7 @@
 <h2 class="events-header">{% trans "Предстоящие события" %}</h2>
 <div class="events-row">
 	{% for event in events %}
-		<div class="event">
+		<div id="eventN{{ event.pk }}" class="event">
 			<div class="theme">{{ event.theme }}</div>
 			<div class="wrapper">
 				<div class="options">
@@ -37,18 +37,19 @@
 
 				<div class="description">
 				{{ event.description }}
+				{{ event.subscribed }}
 				</div>
 			</div>
 			<div class="buttons">
 				<button class="more-button" onclick="showEventPopup({{ event.pk }})">Подробнее</button>
-				<button class="subscribe-button" onclick="alert('всё ещё не работает')">Подписаться</button>
+				<button class="{% if event.subscribed %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if event.subscribed %}unsubscribeToEvent({{ event.pk }}){% else %}subscribeToEvent({{ event.pk }}){% endif %}" subscribers="{{ event.anonymous_subscribers }}">{% if event.subscribed %}Отписаться{% else %}Подписаться{% endif %} ({{ event.anonymous_subscribers }})</button>
 			</div>
 		</div>
 	{% endfor %}
 </div>
 <div id="event_popup" class="anim_event_popup_showing" onclick="hideEventPopup()" style="display: none;">
 	<div class="close-button">X</div>
-	<iframe id="event_popup_frame" class="anim_event_popup_frame_showing"  src="/en/admin"  frameborder="no">
+	<iframe id="event_popup_frame" class="anim_event_popup_frame_showing"  src=""  frameborder="no">
 	{% blocktrans %}У вас плохой браузер :({% endblocktrans %}
 	</iframe>
 </div>
@@ -67,6 +68,48 @@ function hideEventPopup() {
 	setTimeout(function() {
 		event_popup.style.display='none';
 	}, 400)
+}
+
+function subscribeToEvent(pk)
+{
+    $.ajax({
+            type: 'GET',
+            url: 'ajax/eventSubscribe/' + pk + '/',
+            success: function(data) {
+                    ajaxResult.textContent = data;
+                    elem = $('#eventN' + pk + '').children('.buttons').children('.subscribe-button')
+                    elem.removeClass('subscribe-button').addClass('subscribed-button')
+                    elem[0].textContent = "Отписаться (" + elem[0].getAttribute('subscribers') + ")"
+                    elem.unbind('click');
+                    elem[0].onclick = function() {
+                     	unsubscribeToEvent(pk)
+                    }
+            },
+            error:  function(xhr, str){
+                    alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+	});
+}
+function unsubscribeToEvent(pk)
+{
+    $.ajax({
+            type: 'GET',
+            url: 'ajax/eventUnsubscribe/' + pk + '/',
+            success: function(data) {
+                    ajaxResult.textContent = data;
+                    ajaxResult.textContent = data;
+                    elem = $('#eventN' + pk + '').children('.buttons').children('.subscribed-button')
+                    elem.removeClass('subscribed-button').addClass('subscribe-button')
+                    elem[0].textContent = "Подписаться (" + elem[0].getAttribute('subscribers') + ")"
+                    elem.unbind('click');
+                    elem[0].onclick = function() {
+                     	subscribeToEvent(pk)
+                    }
+            },
+            error:  function(xhr, str){
+                    alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+	});
 }
 </script>
 

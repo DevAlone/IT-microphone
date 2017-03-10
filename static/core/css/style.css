@@ -111,6 +111,14 @@ body {
 	background-color: #ddd;
 }
 
+
+.subscribed-button {
+	background-color: #eee !important;
+}
+.subscribed-button:hover {
+	background-color: #ddd !important;
+}
+
 #event_popup {
 	position: fixed;
 	left: 0;
