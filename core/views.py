@@ -17,11 +17,3 @@ def eventDetail(request, pk=None):
     return render(request, 'core/event_detail.html', {
         'event': event
     })
-
-
-def test(request):
-    user = request.user
-
-    return render(request, 'core/test.html', {
-        'user': user
-    })
