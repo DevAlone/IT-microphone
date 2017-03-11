@@ -80,7 +80,7 @@ function subscribeToEvent(pk)
 {
     $.ajax({
             type: 'GET',
-            url: 'ajax/eventSubscribe/' + pk + '/',
+            url: '/ajax/eventSubscribe/' + pk + '/',
             success: function(data) {
                     ajaxResult.textContent = data;
                     elem = $('#eventN' + pk + '').children('.buttons').children('.subscribe-button')
@@ -100,7 +100,7 @@ function unsubscribeToEvent(pk)
 {
     $.ajax({
             type: 'GET',
-            url: 'ajax/eventUnsubscribe/' + pk + '/',
+            url: '/ajax/eventUnsubscribe/' + pk + '/',
             success: function(data) {
                     ajaxResult.textContent = data;
                     ajaxResult.textContent = data;
