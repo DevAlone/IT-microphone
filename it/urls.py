@@ -20,5 +20,6 @@ from django.conf.urls.i18n import i18n_patterns
 urlpatterns = i18n_patterns(
     url(r'^', include('core.urls')),
     url(r'^ajax/', include('ajax.urls')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^admin23412341234/', admin.site.urls),
 )

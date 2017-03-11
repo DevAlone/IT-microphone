@@ -16,7 +16,24 @@
 <body>
 	<div id="beta">beta version <div id="ajaxResult"></div></div>
 	<header>
-
+		<div id="main-menu">
+			<div class="add-event-button">
+				<a href="{% url 'core:addEvent' %}">Добавить событие</a>
+			</div>
+			<ul>
+				<li><a href="{% url 'core:eventList' category='future' %}">Предстоящие события</a></li>
+				<li><a href="{% url 'core:eventList' category='past' %}">Прошедшие события</a></li>
+			</ul>
+			{% if request.user.is_authenticated %}
+			<div class="profile-button">
+				<a href="{% url 'accounts:editProfile' %}">{{ request.user.username }}</a>
+			</div>
+			{% else %}
+			<div class="login-button">
+				<a href="{% url 'accounts:login' %}">Войти</a>
+			</div>
+			{% endif %}
+		</div>
 	</header>
 	<div id="content">
 {% block content %}{% endblock %}

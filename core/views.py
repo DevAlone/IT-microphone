@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from .models import Event
 
 
@@ -16,6 +17,20 @@ def index(request):
     return render(request, 'core/index.html', {
         'events': events,
         'subscribers': subscribers
+    })
+
+
+def eventListView(request, category):
+    if category == 'past':
+        events = Event.objects.filter(event_end_time__lte=timezone.now())
+    elif category == 'future':
+        events = Event.objects.filter(event_start_time__gte=timezone.now())
+    else:
+        events = Event.objects.all().order_by('-event_start_time')
+
+    return render(request, 'core/events_list.html', {
+        'category': category,
+        'events': events,
     })
 
 
@@ -35,6 +50,11 @@ def eventDetail(request, pk=None):
     return render(request, 'core/event_detail.html', {
         'event': event,
     })
+
+@login_required
+def addEvent(request):
+
+    return render(request, 'core/add_event.html')
 
 
 def test(request):

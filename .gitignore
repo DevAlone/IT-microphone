@@ -2,3 +2,4 @@ it/settings.py
 it/gunicorn.conf.py
 .*
 __pycache__
+db.sqlite3

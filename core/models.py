@@ -2,10 +2,12 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Event(models.Model):
-    lector = models.CharField(max_length=50)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+#    lectors = models.ManyToManyField(User
     theme = models.CharField(max_length=150)
     description = models.CharField(max_length=1500)
     location = models.CharField(max_length=200)
@@ -26,3 +28,6 @@ class Event(models.Model):
 
     def duration(self):
         return self.event_end_time - self.event_start_time
+
+    class Meta:
+        ordering = ['pub_date']
