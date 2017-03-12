@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 
 
 class Event(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey(User, related_name='owner',
+                              on_delete=models.SET_NULL, null=True)
 #    lectors = models.ManyToManyField(User
     theme = models.CharField(max_length=150)
     description = models.CharField(max_length=1500)
