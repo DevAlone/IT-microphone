@@ -5,6 +5,19 @@
 
 {% block title %}IT microphone{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'core/css/timepicker-ui.min.css' %}" type="text/css"/> 
+<script src="{% static 'core/js/timepicker-ui.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-Здесь форма добавления события
+<form action="." method="POST">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="{% trans 'Добавить' %}">
+</form>
+<script>
+$(".datepicker").datepicker({dateFormat: 'yy-mm-dd T'});
+$('.timepicker').timePicker();
+</script>
 {% endblock %}

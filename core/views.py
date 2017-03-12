@@ -1,8 +1,12 @@
-from django.http import HttpResponse
+import datetime
+
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .models import Event
+from .forms import EventAddForm
 
 
 def index(request):
@@ -36,13 +40,6 @@ def eventListView(request, category):
 
 def eventDetail(request, pk=None):
     event = get_object_or_404(Event, pk=pk)
-    #if not request.session['anonim_subscribed']:
-    #    request.session['anonim_subscribed'] = True
-    #    event.anonymous_subscribers += 1
-    #    event.save() # здесь неплохо бы транзакцию сделать
-
-    #subscribed = request.session['anonim_subscribed' + pk] if \
-    #    'anonim_subscribed' + pk in request.session else False
     event.subscribed = request.session['anonim_subscribed' + \
         str(event.pk)] if 'anonim_subscribed' + str(event.pk) in \
         request.session else False
@@ -51,10 +48,24 @@ def eventDetail(request, pk=None):
         'event': event,
     })
 
+
 @login_required
 def addEvent(request):
+    if request.method == 'POST':
+        form = EventAddForm(request.POST)
 
-    return render(request, 'core/add_event.html')
+        if form.is_valid():
+            event = form.save(commit=False)
+
+            event.owner = request.user
+            event.save()
+
+            return HttpResponseRedirect(reverse('core:event_detail',
+                                                kwargs={'pk':event.pk}))
+    else:
+        form = EventAddForm()
+
+    return render(request, 'core/add_event.html', {'form': form})
 
 
 def test(request):
