@@ -21,7 +21,6 @@ class Event(models.Model):
     def __str__(self):
         return self.theme
 
-
     def save(self, *args, **kwargs):
 
         if self.event_start_time >= self.event_end_time:

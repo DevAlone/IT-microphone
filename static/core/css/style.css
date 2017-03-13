@@ -5,6 +5,17 @@
 	#beta {
 		display: none;
 	}
+	#main-menu {
+		min-height: 10px !important;
+	}
+	#main-menu > * {
+		min-height: 10px !important;
+	}
+	#main-menu a{
+		padding: 0px 5px !important;
+		margin: 0 !important;
+		min-height: 10px !important;
+	}
 }
 
 #beta {
@@ -52,11 +63,20 @@ body {
 	/*padding: 10px;*/
 
 }
-.event .theme {
+.event .header {
 	background-color: #FFEB9E;
 	color: #000;
 	border-radius: 4px 4px 0 0;
 	padding: 10px;
+}
+.event .theme {
+	display: inline-block;
+}
+.event .edit {
+	float: right;	
+}
+.event .edit a {
+	
 }
 .event .option {
 	display: block;
@@ -64,6 +84,11 @@ body {
 	padding: 5px 10px;
 	background-color: #eee;
 	/*background-color: #ddd;*/
+}
+.event .option > * {
+	/*background-color: red;*/
+	/*margin: 0 !important;
+	padding: 0 !important;*/
 }
 .event .options .option:nth-child(even) {
 }
@@ -112,6 +137,7 @@ body {
 }
 
 
+
 .subscribed-button {
 	background-color: #eee !important;
 }
@@ -129,7 +155,8 @@ body {
 
 	background-color: rgba(0,0,0,0.5);
 }
-#event_popup iframe {
+#event_popup #event_popup_frame {
+	background-color: red;
     position: fixed;
 	/*position: fixed;
 	top: 0;
@@ -213,7 +240,7 @@ header {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 50px;
+	min-height: 50px;
 
 	background-color: #fff;
 	border-bottom: 1px solid #ccc;
@@ -231,6 +258,13 @@ header {
 	padding: 0;
 
 	letter-spacing: -0.3em;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: stretch;
+	align-content: stretch;
 }
 #main-menu ul li {
 	display: inline-block;
@@ -238,12 +272,12 @@ header {
 }
 
 #main-menu > * {
-	height: 50px;
+	min-height: 50px;
 	/*background-color: red;*/
 }
 #main-menu a {
 	display: block;
-	height: 50px;
+	min-height: 50px;
 	line-height: 40px;
 	box-sizing: border-box;
 	padding: 5px 20px;

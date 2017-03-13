@@ -1,22 +1,10 @@
-{% load static %}
-{% load i18n %}
-<!DOCTYPE html>
-<html lang="{% if language %}{{ language }}{% else %}ru{% endif %}">
-<head>
-	<title>{{ event }}</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="{% static 'core/css/base.css' %}" >
-	<link rel="stylesheet" href="{% static 'core/css/event_detail.css' %}" >
-
-	<script src="{% static 'core/js/jquery.js' %}"></script>
-</head>
-<body>
-	<header>
+<div id="event_detail_frame">
+	<div class="header">
 		<h1 class="theme">{{ event.theme }}</h1>
 		<div class="button-wrapper">
-			<button class="{% if event.subscribed %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if event.subscribed %}unsubscribeToEvent({{ event.pk }}){% else %}subscribeToEvent({{ event.pk }}){% endif %}" subscribers="{{ event.anonymous_subscribers }}">{% if event.subscribed %}Отписаться{% else %}Подписаться{% endif %} ({{ event.anonymous_subscribers }})</button>
+			<button class="{% if event.subscribed %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if event.subscribed %}unsubscribeToEvent(this, {{ event.pk }}){% else %}subscribeToEvent(this, {{ event.pk }}){% endif %}" subscribers="{{ event.anonymous_subscribers }}">{% if event.subscribed %}Отписаться{% else %}Подписаться{% endif %} ({{ event.anonymous_subscribers }})</button>
 		</div>
-	</header>
+	</div>
 	<div id="content">
 		<div class="lector">
 			<div class="avatar">
@@ -52,49 +40,4 @@
 		chat will be here
 		</div>
 	</div>
-
-	<script>
-
-function subscribeToEvent(pk)
-{
-    $.ajax({
-            type: 'GET',
-            url: '/ajax/eventSubscribe/' + pk + '/',
-            success: function(data) {
-                    // ajaxResult.textContent = data;
-                    elem = $('header').children('.button-wrapper').children('.subscribe-button')
-                    elem.removeClass('subscribe-button').addClass('subscribed-button')
-                    elem[0].textContent = "Отписаться (" + elem[0].getAttribute('subscribers') + ")"
-                    elem.unbind('click');
-                    elem[0].onclick = function() {
-                     	unsubscribeToEvent(pk)
-                    }
-            },
-            error:  function(xhr, str){
-                    alert('Возникла ошибка: ' + xhr.responseCode);
-            }
-	});
-}
-function unsubscribeToEvent(pk)
-{
-    $.ajax({
-            type: 'GET',
-            url: '/ajax/eventUnsubscribe/' + pk + '/',
-            success: function(data) {
-                    // ajaxResult.textContent = data;
-                    elem = $('header').children('.button-wrapper').children('.subscribed-button')
-                    elem.removeClass('subscribed-button').addClass('subscribe-button')
-                    elem[0].textContent = "Подписаться (" + elem[0].getAttribute('subscribers') + ")"
-                    elem.unbind('click');
-                    elem[0].onclick = function() {
-                     	subscribeToEvent(pk)
-                    }
-            },
-            error:  function(xhr, str){
-                    alert('Возникла ошибка: ' + xhr.responseCode);
-            }
-	});
-}
-	</script>
-</body>
-</html>
+</div>

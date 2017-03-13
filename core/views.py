@@ -1,12 +1,11 @@
-import datetime
-
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.db import transaction
 from .models import Event
-from .forms import EventAddForm
+from .forms import EventAddForm, EventEditForm
 
 
 def index(request):
@@ -14,9 +13,7 @@ def index(request):
 
     subscribers = []
     for event in events:
-        event.subscribed = request.session['anonim_subscribed' + \
-            str(event.pk)] if 'anonim_subscribed' + str(event.pk) in \
-            request.session else False
+        event.subscribed = False
 
     return render(request, 'core/index.html', {
         'events': events,
@@ -29,6 +26,10 @@ def eventListView(request, category):
         events = Event.objects.filter(event_end_time__lte=timezone.now())
     elif category == 'future':
         events = Event.objects.filter(event_start_time__gte=timezone.now())
+    elif category == 'my':
+        if not request.user.is_authenticated():
+            raise Http404()
+        events = Event.objects.filter(owner=request.user)
     else:
         events = Event.objects.all().order_by('-event_start_time')
 
@@ -40,15 +41,14 @@ def eventListView(request, category):
 
 def eventDetail(request, pk=None):
     event = get_object_or_404(Event, pk=pk)
-    event.subscribed = request.session['anonim_subscribed' + \
-        str(event.pk)] if 'anonim_subscribed' + str(event.pk) in \
-        request.session else False
+    event.subscribed = True
 
     return render(request, 'core/event_detail.html', {
         'event': event,
     })
 
 
+@transaction.atomic
 @login_required
 def addEvent(request):
     if request.method == 'POST':
@@ -61,20 +61,41 @@ def addEvent(request):
             event.save()
 
             return HttpResponseRedirect(reverse('core:event_detail',
-                                                kwargs={'pk':event.pk}))
+                                                kwargs={'pk': event.pk}))
     else:
         form = EventAddForm()
 
     return render(request, 'core/add_event.html', {'form': form})
 
 
-def test(request):
-    user = request.user
-#    request.session['voted'] = True
+@transaction.atomic
+@login_required
+def editEvent(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if request.user != event.owner:
+        raise Http404()
 
-    voted = request.session['voted'] = True
+    if request.method == 'POST':
+        form = EventEditForm(request.POST)
 
-    return render(request, 'core/test.html', {
-        'user': user,
-        'voted': voted,
-    })
+        if form.is_valid():
+            result = form.cleaned_data
+            event.description = result['description']
+            event.location = result['location']
+            event.event_end_time = result['event_end_time']
+            event.need_subscribers = result['need_subscribers']
+            event.save()
+
+            return HttpResponseRedirect(reverse('core:event_detail',
+                                        kwargs={'pk': event.pk}))
+    else:
+        form = EventEditForm(initial={
+            'theme': event.theme,
+            'description': event.description,
+            'location': event.location,
+            'event_start_time': event.event_start_time,
+            'event_end_time': event.event_end_time,
+            'need_subscribers': event.need_subscribers,
+        })
+
+    return render(request, 'core/edit_event.html', {'form': form})

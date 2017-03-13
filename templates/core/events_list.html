@@ -16,12 +16,17 @@
 <div class="events-row">
 	{% for event in events %}
 		<div id="eventN{{ event.pk }}" class="event">
-			<div class="theme">{{ event.theme }}</div>
+			<div class="header">
+				<div class="theme">{{ event.theme }}</div>
+				{% if request.user == event.owner %}
+				<div class="edit"><a href="{% url 'core:editEvent' pk=event.pk %}">Редактировать</a></div>
+				{% endif %}
+			</div>
 			<div class="wrapper">
 				<div class="options">
 					<div class="option">
 						<div class="key">Лектор</div>
-						<div class="value">{{ event.owner.username }}</div>
+						<div class="value"><a href="{% url 'accounts:profile' username=event.owner.username %}">{{ event.owner.username }}</a></div>
 					</div>
 					<div class="option">
 						<div class="key">Место проведения</div>
@@ -48,22 +53,36 @@
 			</div>
 			<div class="buttons">
 				<button class="more-button" onclick="showEventPopup({{ event.pk }})">Подробнее</button>
-				<button class="{% if event.subscribed %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if event.subscribed %}unsubscribeToEvent({{ event.pk }}){% else %}subscribeToEvent({{ event.pk }}){% endif %}" subscribers="{{ event.anonymous_subscribers }}">{% if event.subscribed %}Отписаться{% else %}Подписаться{% endif %} ({{ event.anonymous_subscribers }})</button>
+				<button class="{% if event.subscribed %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if event.subscribed %}unsubscribeFromEvent(this, {{ event.pk }}){% else %}subscribeToEvent(this, {{ event.pk }}){% endif %}" subscribers="{{ event.anonymous_subscribers }}">{% if event.subscribed %}Отписаться{% else %}Подписаться{% endif %} ({{ event.anonymous_subscribers }})</button>
 			</div>
 		</div>
+	{% empty %}
+	<h3>На складе ничего не найдено</h3>
 	{% endfor %}
 </div>
-<div id="event_popup" class="anim_event_popup_showing" onclick="hideEventPopup()" style="display: none;">
+<div id="event_popup" class="anim_event_popup_showing"  style="display: none;">
 	<div class="close-button">X</div>
-	<iframe id="event_popup_frame" class="anim_event_popup_frame_showing"  src=""  frameborder="no">
+	<div id="event_popup_frame" class="anim_event_popup_frame_showing" onclick="function() { return false; }">
+
+	</div>
+	<!-- <iframe id="event_popup_frame" class="anim_event_popup_frame_showing"  src=""  frameborder="no" seamless>
 	{% blocktrans %}У вас плохой браузер :({% endblocktrans %}
-	</iframe>
+	</iframe> -->
 </div>
 
 <script>
+$('#event_popup').click(function(event) {
+	hideEventPopup();
+})
+$('#event_popup #event_popup_frame').click(function(event) {
+	event.stopPropagation();
+})
 function showEventPopup(id) {
 	// да, костыль, но работает же!
-    event_popup.getElementsByTagName("iframe")[0].src = "{% url 'core:event_detail' pk=999 %}".replace(999, id);
+	$.get( "{% url 'core:event_detail' pk=999 %}".replace(999, id), function( response ) { 
+		$('#event_popup #event_popup_frame').html(response);
+	} );
+    // event_popup.getElementsByTagName("iframe")[0].src = "{% url 'core:event_detail' pk=999 %}".replace(999, id);
     event_popup.style.display = "block";
     event_popup_frame.style.webkitAnimationName = 'event_popup_frame_showing';
     event_popup.style.webkitAnimationName = 'event_popup_showing';
@@ -76,19 +95,19 @@ function hideEventPopup() {
 	}, 400)
 }
 
-function subscribeToEvent(pk)
+function subscribeToEvent(elem, pk)
 {
     $.ajax({
             type: 'GET',
             url: '/ajax/eventSubscribe/' + pk + '/',
             success: function(data) {
                     ajaxResult.textContent = data;
-                    elem = $('#eventN' + pk + '').children('.buttons').children('.subscribe-button')
+                    elem = $(elem)
                     elem.removeClass('subscribe-button').addClass('subscribed-button')
                     elem[0].textContent = "Отписаться (" + elem[0].getAttribute('subscribers') + ")"
                     elem.unbind('click');
                     elem[0].onclick = function() {
-                     	unsubscribeToEvent(pk)
+                     	unsubscribeFromEvent(elem, pk)
                     }
             },
             error:  function(xhr, str){
@@ -96,20 +115,19 @@ function subscribeToEvent(pk)
             }
 	});
 }
-function unsubscribeToEvent(pk)
+function unsubscribeFromEvent(elem, pk)
 {
     $.ajax({
             type: 'GET',
             url: '/ajax/eventUnsubscribe/' + pk + '/',
             success: function(data) {
                     ajaxResult.textContent = data;
-                    ajaxResult.textContent = data;
-                    elem = $('#eventN' + pk + '').children('.buttons').children('.subscribed-button')
+                    elem = $(elem)
                     elem.removeClass('subscribed-button').addClass('subscribe-button')
                     elem[0].textContent = "Подписаться (" + elem[0].getAttribute('subscribers') + ")"
                     elem.unbind('click');
                     elem[0].onclick = function() {
-                     	subscribeToEvent(pk)
+                     	subscribeToEvent(elem, pk)
                     }
             },
             error:  function(xhr, str){

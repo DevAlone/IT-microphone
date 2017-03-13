@@ -1,4 +1,4 @@
-header {
+#event_detail_frame .header {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -7,14 +7,17 @@ header {
 	align-content: stretch;
 	min-height: 60px;
 }
-header .button-wrapper {
+#event_detail_frame 
+.header .button-wrapper {
 	
 }
-header .button-wrapper button {
+#event_detail_frame 
+.header .button-wrapper button {
 	margin-top: 7px;
 	height: 45px;
 	display: inline-block;
 }
+#event_detail_frame 
 .theme {
 	/*display: inline-block;
 	width: 80%;*/
@@ -23,6 +26,7 @@ header .button-wrapper button {
 	font-size: 35px;
 }
 
+#event_detail_frame 
 #content {
 	display: flex;
 	flex-direction: row;
@@ -31,29 +35,34 @@ header .button-wrapper button {
 	align-items: stretch;
 	align-content: stretch;
 }
+#event_detail_frame 
 #content > div {
 	margin: 10px;
 }
 
+#event_detail_frame 
 .options {
 	width: 600px;
 
 } 
+#event_detail_frame 
 .option {
 	background-color: #eee;
 	margin: 10px 0;
 }
-.option .key, .option .value {
+#event_detail_frame .option .key, 
+#event_detail_frame .option .value {
 	display: inline-block;
 	padding: 5px 10px;
 }
-.option .key {
+#event_detail_frame .option .key {
 	min-width: 40%;
 }
-.option .value {
+#event_detail_frame .option .value {
 
 }
-.description, .chat {
+#event_detail_frame .description, 
+#event_detail_frame .chat {
 	width: 90%;
 
 	padding: 10px;
@@ -61,25 +70,29 @@ header .button-wrapper button {
 	border-radius: 4px;
 }
 
-header .button-wrapper button {
+#event_detail_frame 
+.header .button-wrapper button {
 	border: none;
 	padding: 12px 25px;
 	/*margin: 5px 0;*/
 	border-radius: 4px;
 }
+#event_detail_frame 
 .event button:hover {
 	/*background-color: #ddd;*/
 }
+#event_detail_frame 
 .subscribe-button {
 	background-color: #aea;
 }
+#event_detail_frame 
 .subscribe-button:hover {
 	background-color: #ada;
 }
 
-.subscribed-button {
+#event_detail_frame .subscribed-button {
 	background-color: #eee !important;
 }
-.subscribed-button:hover {
+#event_detail_frame .subscribed-button:hover {
 	background-color: #ddd !important;
 }

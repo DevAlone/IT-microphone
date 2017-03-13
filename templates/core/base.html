@@ -14,6 +14,7 @@
 
 	<link type="text/css" href="{% static 'core/css/jquery-ui.min.css' %}" rel="stylesheet" />
 	<link type="text/css" href="{% static 'core/css/jquery-ui.theme.min.css' %}" rel="stylesheet" />
+	<link rel="stylesheet" href="{% static 'core/css/event_detail.css' %}" >
 	<script type="text/javascript" src="{% static 'core/js/jquery-ui.min.js' %}"></script>
 	{% block head %}{% endblock %}
 </head>
@@ -30,6 +31,9 @@
 			<ul>
 				<li><a href="{% url 'core:eventList' category='future' %}">Предстоящие события</a></li>
 				<li><a href="{% url 'core:eventList' category='past' %}">Прошедшие события</a></li>
+				{% if request.user.is_authenticated %}
+				<li><a href="{% url 'core:eventList' category='my' %}">Мои события</a></li>
+				{% endif %}
 			</ul>
 			{% if request.user.is_authenticated %}
 			<div class="profile-button">

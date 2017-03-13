@@ -3,27 +3,39 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from .forms import UserForm, ProfileForm
+from django.contrib.auth.models import User
 
 
 def index(request):
-
     return render(request, 'accounts/index.html')
 
 
-def profile(request):
+def profile(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'accounts/profile.html', {'user': user})
 
-    return render(request, 'accounts/profile.html')
 
-
+@transaction.atomic
 @login_required
 def editProfile(request):
-    if request.method == 'GET':
-        user = request.user
-        return render(request, 'accounts/editProfile.html', {
-            'user': user
-        })
-
-    raise Http404()
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return HttpResponseRedirect(
+                reverse('accounts:profile',
+                        kwargs={'username': request.user.username}))
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'accounts/edit_profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    })
 
 
 def login(request):
