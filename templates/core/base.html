@@ -22,7 +22,9 @@
 
 <!-- Yandex.Metrika counter --> <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter43414749 = new Ya.Metrika({ id:43414749, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/43414749" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
 
+	<div id="content">
 	<div id="beta">beta version <div id="ajaxResult"></div></div>
+	{% block header %}
 	<header>
 		<div id="main-menu">
 			<div class="add-event-button">
@@ -36,9 +38,25 @@
 				{% endif %}
 			</ul>
 			{% if request.user.is_authenticated %}
-			<div class="profile-button">
-				<a href="{% url 'accounts:editProfile' %}">{{ request.user.username }}</a>
+			<div class="floating-menu">
+				<div class="profile-button">
+					<a href="{% url 'accounts:profile' username=request.user.username %}">{{ request.user.username }}</a>
+				</div>
+				<div class="more-button" onclick="openFloatingMenu()">&lt; &gt;</div>
+				<div class="edit-profile-button">
+					<a href="{% url 'accounts:editProfile' %}">Изменить</a>
+				</div>
+				<div class="logout-button">
+					<a href="{% url 'accounts:logout' %}">Выйти</a>
+				</div>
 			</div>
+			<script>
+
+			function openFloatingMenu()
+			{
+				$('#main-menu .floating-menu').toggleClass('opened-floating-menu')
+			}
+			</script>
 			{% else %}
 			<div class="login-button">
 				<a href="{% url 'accounts:login' %}">Войти</a>
@@ -46,12 +64,9 @@
 			{% endif %}
 		</div>
 	</header>
-	<div id="content">
+	{% endblock %}
 {% block content %}{% endblock %}
 	</div>
-	<footer>
-
-	</footer>
 
 	<script src="{% static 'core/js/bootstrap.min.js' %}"></script>
 </body>

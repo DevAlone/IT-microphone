@@ -12,11 +12,13 @@
 
 {% block content %}
 <h2>Редактировать событие</h2>
-<form action="." method="POST">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="{% trans 'Добавить' %}">
-</form>
+<div class="form_wrapper">
+	<form action="." method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="{% trans 'Добавить' %}">
+	</form>
+</div>
 <script>
 $(".datepicker").datepicker({dateFormat: 'yy-mm-dd T'});
 $('.timepicker').timePicker();

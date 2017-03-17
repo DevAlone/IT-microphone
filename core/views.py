@@ -8,6 +8,10 @@ from .models import Event
 from .forms import EventAddForm, EventEditForm
 
 
+def fakeAdmin(request):
+    return render(request, 'core/fakeAdmin.html')
+
+
 def index(request):
     events = Event.objects.all().order_by('-event_start_time')
 

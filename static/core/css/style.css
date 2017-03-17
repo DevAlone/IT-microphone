@@ -19,14 +19,15 @@
 }
 
 #beta {
-	position: absolute;
+	position: fixed;
 	left: 0;
-	top: 0;
+	bottom: 0;
 	width: 100px;
 	height: : 50px;
 	line-height: 50px;
 
 	text-align: center;
+	color: #AEAEAE;
 }
 
 body {
@@ -233,12 +234,13 @@ body {
 }
 
 header {
-	height: 50px;
+	min-height: 50px;
+	overflow: hidden;	
 }
 #main-menu {
-	position: fixed;
-	top: 0;
-	left: 0;
+	/*position: fixed;*/
+	/*top: 0;*/
+	/*left: 0;*/
 	width: 100%;
 	min-height: 50px;
 
@@ -305,4 +307,111 @@ header {
 
 #main-menu .add-event-button a:hover {
 	background-color: #eee;
+}
+
+.profile-button::first-letter {
+	text-transform: uppercase;
+}
+
+#main-menu .floating-menu {
+	position: relative;
+	width: 100px;
+	height: 50px;
+	overflow: hidden;
+	text-align: center;
+	/*background-color: red;*/
+	padding-right: 20px;
+}
+#main-menu .opened-floating-menu {
+	width: auto !important;
+}
+#main-menu .floating-menu div {
+	display: inline-block;
+}
+
+#main-menu .floating-menu .more-button {
+	position: absolute;
+	top: 0;
+	right: 0px;
+	width: 30px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 18px;
+	/*background-color: blue;*/
+	
+}
+#main-menu .floating-menu .more-button:hover {
+	background-color: #eee;
+}
+html {
+	height: 100%;
+}
+body {
+	height: 100%;
+}
+#content {
+	height: 100%;
+
+}
+.form_wrapper {
+	/*text-align: center;*/
+	/*background-color: red;*/
+	min-height: calc(100% - 52px);
+	/*background-color: red;*/
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+  	justify-content: center;
+}
+form {
+	margin-bottom: 10px;
+}
+form p {
+	
+}
+form p label {
+	display: block;
+	margin-bottom: 5px;
+	font-size: 17px;
+}
+form input, 
+form textarea {
+	display: block;
+	width: 100%;
+
+	font-size: 15px;
+	border: 1px solid #ddd;
+	padding: 5px;
+	box-sizing: border-box;
+}
+form input:focus, 
+form textarea:focus {
+	border: 1px solid #999;
+}
+input:focus, textarea { 
+	outline: none; 
+}
+form input[type="submit"] {
+	padding: 10px 5px;
+	transition: 0.25s linear;
+}
+form input[type="submit"]:hover {
+	background-color: #000;
+	color: #eee;
+}
+
+h2 {
+	text-align: center;
+}
+
+#edit_profile_form {
+	min-width: 300px;
+}
+
+.edit_profile_form_wrapper a{
+	display: block;
+	width: 100%;
+	text-align: center;
 }

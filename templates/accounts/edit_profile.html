@@ -10,11 +10,13 @@
 {% endblock %}
 
 {% block content %}
-<form action="." method="POST">
-	{% csrf_token %}
-	{{ user_form.as_p }}
-	{{ profile_form.as_p }}
-	<input type="submit" value="{% trans 'Сохранить' %}">
-</form>
+<div class="form_wrapper edit_profile_form_wrapper">
+	<form id="edit_profile_form" action="." method="POST">
+		{% csrf_token %}
+		{{ user_form.as_p }}
+		{{ profile_form.as_p }}
+		<input type="submit" value="{% trans 'Сохранить' %}">
+	</form>
 <a href="{% url 'accounts:changePassword' %}">{% trans 'Изменить пароль' %}</a>
+</div>
 {% endblock %}

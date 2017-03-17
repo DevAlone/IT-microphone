@@ -1,5 +1,5 @@
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,8 @@ def index(request):
 
 
 def profile(request, username):
-    user = User.objects.get(username=username)
+    # user = User.objects.get(username=username)
+    user = get_object_or_404(User, username=username)
     return render(request, 'accounts/profile.html', {'user': user})
 
 
@@ -39,20 +40,13 @@ def editProfile(request):
 
 
 def login(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('accounts.logout'))
-        return render(request, 'accounts/login.html')
-    elif request.method == 'POST':
+    if request.method == 'POST':
         username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
-        if user is not None and user.is_active():
-            auth.login(request, user)
-            return HttpResponseRedirect(reverse('core.index'))
-        return HttpResponseRedirect(reverse('accounts.login'))
+        if username == 'admin' or username == 'moderator' or \
+           username == 'administrator':
+            return redirect(reverse('core:fakeAdmin'))
 
-    raise Http404()
+    return auth.views.login(request, template_name='accounts/login.html')
 
 
 def logout(request):
