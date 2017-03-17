@@ -396,10 +396,12 @@ input:focus, textarea {
 form input[type="submit"] {
 	padding: 10px 5px;
 	transition: 0.25s linear;
+	background-color: #eee;
+	border: none;
 }
 form input[type="submit"]:hover {
-	background-color: #000;
-	color: #eee;
+	background-color: #ddd;
+	color: #000;
 }
 
 h2 {
