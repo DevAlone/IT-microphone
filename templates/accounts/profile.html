@@ -10,5 +10,21 @@
 {% endblock %}
 
 {% block content %}
-{{ user }}
+<div class="user_profile">
+	<div class="options">
+		<div class="option">
+			<div class="key">Никнейм</div>
+			<div class="value">{{ user.username }}</div>
+		</div>	
+		{% if user.last_name|length != 0 or user.first_name|length != 0 or user.profile.middle_name|length != 0 %}
+		<div class="option">
+			<div class="key">{% if user.last_name|length != 0 %}Фамилия{% endif %} {% if user.first_name|length != 0 %}Имя{% endif %} {% if user.profile.middle_name|length != 0 %}Отчество{% endif %}</div>
+			<div class="value">{{ user.first_name }} {{ user.last_name }} {{ user.profile.middle_name }}</div>
+		</div>	
+		{% endif %}
+	</div>
+</div>
+<h2>Список событий</h2>
+{% include 'core/parts/events.part.html' %}
+
 {% endblock %}

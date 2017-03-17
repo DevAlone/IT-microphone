@@ -417,3 +417,22 @@ h2 {
 	width: 100%;
 	text-align: center;
 }
+
+
+
+.user_profile {
+
+}
+.user_profile .options {
+	width: 50%;
+}
+.user_profile .options .option {
+	display: flex;
+	background-color: #fff;
+	margin: 10px;
+	box-shadow: 1px 1px 1px #999;
+}
+.user_profile .options .option .key, 
+.user_profile .options .option .value {
+	padding: 10px;
+}

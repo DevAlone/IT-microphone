@@ -7,6 +7,7 @@ from django.db import transaction
 from .forms import UserForm, ProfileForm
 from django.contrib.auth.models import User
 
+from core.views import Event
 
 def index(request):
     return render(request, 'accounts/index.html')
@@ -15,7 +16,11 @@ def index(request):
 def profile(request, username):
     # user = User.objects.get(username=username)
     user = get_object_or_404(User, username=username)
-    return render(request, 'accounts/profile.html', {'user': user})
+    events = Event.objects.filter(owner=user)
+    return render(request, 'accounts/profile.html', {
+        'user': user,
+        'events': events,
+    })
 
 
 @transaction.atomic
