@@ -6,7 +6,6 @@ fake_admin_regex = r'^admin/$|^wp-admin\.php$|^wp-login\.php$|^administrator/$'
 fake_admin_regex += r'|^admin.php$|^login.php$|^cms/kernel/admin.php$'
 fake_admin_regex += r'|^bitrix/admin/$|^manager/$|^login_form$|^modx/manager/$'
 fake_admin_regex += r'|^administrator/index.php$'
-fake_admin_regex += r'|^this_page_is_not_exist_i_am_sure$'
 
 app_name = 'core'
 urlpatterns = [
