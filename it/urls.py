@@ -22,12 +22,12 @@ from . import settings
 
 urlpatterns = i18n_patterns(
     url(r'^', include('core.urls')),
-    url(r'^', include('fakeadmin.urls')),
     url(r'^ajax/', include('ajax.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^adminthissite214243214/', admin.site.urls),
 )
 
+urlpatterns += [url(r'^', include('fakeadmin.urls')), ]
 if settings.DEBUG:
     urlpatterns += i18n_patterns(
         url(r'^media/(?P<path>.*)$', static.serve, {
