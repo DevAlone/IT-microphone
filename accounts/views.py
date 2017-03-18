@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from core.views import Event
 
+
 def index(request):
     return render(request, 'accounts/index.html')
 
@@ -26,6 +27,10 @@ def profile(request, username):
         events_list = paginator.page(1)
     except EmptyPage:
         events_list = paginator.page(paginator.num_pages)
+
+    events_list.paginator.low_bound = events_list.number - 5
+    events_list.paginator.middle_bound = events_list.number + 5
+    events_list.paginator.high_bound = events_list.paginator.num_pages - 2
 
     return render(request, 'accounts/profile.html', {
         'user': user,

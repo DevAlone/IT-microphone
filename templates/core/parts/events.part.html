@@ -8,7 +8,14 @@
                 <a class="button prev" href="?page={{ events.previous_page_number }}">&lt;</a>
             {% endif %}
             {% for page_number in events.paginator.page_range %}
+            	{% if forloop.counter == 1 or forloop.counter > events.paginator.low_bound and forloop.counter < events.paginator.middle_bound or forloop.counter > events.paginator.high_bound %}
                 <a class="button page{% if page_number == events.number %} active_page{% endif %}" href="?page={{ page_number }}">{{ page_number }}</a>
+                <!-- {{forloop.counter}} -->
+                {% else %}
+                	{% if forloop.counter == events.paginator.middle_bound or forloop.counter == events.paginator.low_bound %}
+                	...
+                	{% endif %}
+                {% endif %}
             {% endfor %}
             {% if events.has_next %}
                 <a class="button next" href="?page={{ events.next_page_number }}">&gt;</a>
@@ -72,7 +79,14 @@
                 <a class="button prev" href="?page={{ events.previous_page_number }}">&lt;</a>
             {% endif %}
             {% for page_number in events.paginator.page_range %}
+            	{% if forloop.counter == 1 or forloop.counter > events.paginator.low_bound and forloop.counter < events.paginator.middle_bound or forloop.counter > events.paginator.high_bound %}
                 <a class="button page{% if page_number == events.number %} active_page{% endif %}" href="?page={{ page_number }}">{{ page_number }}</a>
+                <!-- {{forloop.counter}} -->
+                {% else %}
+                	{% if forloop.counter == events.paginator.middle_bound or forloop.counter == events.paginator.low_bound %}
+                	...
+                	{% endif %}
+                {% endif %}
             {% endfor %}
             {% if events.has_next %}
                 <a class="button next" href="?page={{ events.next_page_number }}">&gt;</a>

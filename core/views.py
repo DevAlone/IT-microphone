@@ -43,6 +43,9 @@ def eventListView(request, category):
     except EmptyPage:
         events_list = paginator.page(paginator.num_pages)
 
+    events_list.paginator.low_bound = events_list.number - 5
+    events_list.paginator.middle_bound = events_list.number + 5
+    events_list.paginator.high_bound = events_list.paginator.num_pages - 2
     return render(request, 'core/events_list.html', {
         'category': category,
         'events': events_list,
