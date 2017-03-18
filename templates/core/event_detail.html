@@ -7,7 +7,7 @@
 	</div>
 	<div id="content">
 		<!-- <div class="lector"> -->
-				{% if event.owner.profile.avatar and user.profile.avatar.url %}
+				{% if event.owner.profile.avatar and user.profile.avatar.url is not None %}
 				<div class="avatar">
 					<img src="{{ event.owner.profile.avatar.url }}">
 				</div>
