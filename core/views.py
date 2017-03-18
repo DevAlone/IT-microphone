@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.db import transaction
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Event
 from .forms import EventAddForm, EventEditForm
 
@@ -33,9 +34,18 @@ def eventListView(request, category):
     else:
         events = Event.objects.all().order_by('-event_start_time')
 
+    paginator = Paginator(events, 10)
+    page = request.GET.get('page')
+    try:
+        events_list = paginator.page(page)
+    except PageNotAnInteger:
+        events_list = paginator.page(1)
+    except EmptyPage:
+        events_list = paginator.page(paginator.num_pages)
+
     return render(request, 'core/events_list.html', {
         'category': category,
-        'events': events,
+        'events': events_list,
     })
 
 

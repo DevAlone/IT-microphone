@@ -1,5 +1,22 @@
 {% load static %}
 {% load i18n %}
+{% if events.has_other_pages %}
+<div class="pagination-wrapper">
+    <div class="pagination">
+        <span class="step-links">
+            {% if events.has_previous %}
+                <a class="button prev" href="?page={{ events.previous_page_number }}">&lt;</a>
+            {% endif %}
+            {% for page_number in events.paginator.page_range %}
+                <a class="button page{% if page_number == events.number %} active_page{% endif %}" href="?page={{ page_number }}">{{ page_number }}</a>
+            {% endfor %}
+            {% if events.has_next %}
+                <a class="button next" href="?page={{ events.next_page_number }}">&gt;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endif %}
 <div class="events-row">
 	{% for event in events %}
 		<div id="eventN{{ event.pk }}" class="event">
@@ -47,6 +64,23 @@
 	<h3>На складе ничего не найдено</h3>
 	{% endfor %}
 </div>
+{% if events.has_other_pages %}
+<div class="pagination-wrapper">
+    <div class="pagination">
+        <span class="step-links">
+            {% if events.has_previous %}
+                <a class="button prev" href="?page={{ events.previous_page_number }}">&lt;</a>
+            {% endif %}
+            {% for page_number in events.paginator.page_range %}
+                <a class="button page{% if page_number == events.number %} active_page{% endif %}" href="?page={{ page_number }}">{{ page_number }}</a>
+            {% endfor %}
+            {% if events.has_next %}
+                <a class="button next" href="?page={{ events.next_page_number }}">&gt;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endif %}
 <div id="event_popup" class="anim_event_popup_showing"  style="display: none;">
 	<div class="close-button">X</div>
 	<div id="event_popup_frame" class="anim_event_popup_frame_showing" onclick="function() { return false; }">

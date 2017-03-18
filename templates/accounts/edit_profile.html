@@ -11,7 +11,7 @@
 
 {% block content %}
 <div class="form_wrapper edit_profile_form_wrapper">
-	<form id="edit_profile_form" action="." method="POST">
+	<form id="edit_profile_form" action="." enctype="multipart/form-data" method="post">
 		{% csrf_token %}
 		{{ user_form.as_p }}
 		{{ profile_form.as_p }}

@@ -8,6 +8,13 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     middle_name = models.CharField(max_length=50, blank=True)
 
+    def get_avatar_filename(instance, filename):
+        return 'avatars/user_{0}/{1}'.format(instance.user.id, filename)
+    avatar = models.ImageField(upload_to=get_avatar_filename, null=True)
+
+    def __str__(self):
+        return self.user.username if self.user is not None else "anon"
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

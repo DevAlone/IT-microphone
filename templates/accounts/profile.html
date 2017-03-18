@@ -3,6 +3,7 @@
 {% load static %}
 {% load i18n %}
 
+
 {% block title %}IT microphone{% endblock %}
 
 {% block head %}
@@ -10,12 +11,14 @@
 {% endblock %}
 
 {% block content %}
+	<h2>{{ user.username }}</h2>
 <div class="user_profile">
+	{% if user.profile.avatar and user.profile.avatar.url is not None %}
+	<div class="avatar">
+		<img src="{{ user.profile.avatar.url }}">
+	</div>
+	{% endif %}
 	<div class="options">
-		<div class="option">
-			<div class="key">Никнейм</div>
-			<div class="value">{{ user.username }}</div>
-		</div>	
 		{% if user.last_name|length != 0 or user.first_name|length != 0 or user.profile.middle_name|length != 0 %}
 		<div class="option">
 			<div class="key">{% if user.last_name|length != 0 %}Фамилия{% endif %} {% if user.first_name|length != 0 %}Имя{% endif %} {% if user.profile.middle_name|length != 0 %}Отчество{% endif %}</div>

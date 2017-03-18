@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from .forms import UserForm, ProfileForm
 from django.contrib.auth.models import User
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from core.views import Event
 
 def index(request):
@@ -17,9 +17,19 @@ def profile(request, username):
     # user = User.objects.get(username=username)
     user = get_object_or_404(User, username=username)
     events = Event.objects.filter(owner=user)
+
+    paginator = Paginator(events, 10)
+    page = request.GET.get('page')
+    try:
+        events_list = paginator.page(page)
+    except PageNotAnInteger:
+        events_list = paginator.page(1)
+    except EmptyPage:
+        events_list = paginator.page(paginator.num_pages)
+
     return render(request, 'accounts/profile.html', {
         'user': user,
-        'events': events,
+        'events': events_list,
     })
 
 
@@ -28,7 +38,8 @@ def profile(request, username):
 def editProfile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        profile_form = ProfileForm(request.POST, request.FILES,
+                                   instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()

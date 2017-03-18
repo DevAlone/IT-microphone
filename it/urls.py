@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
+from django.views import static
+# from django.conf import settings
+from . import settings
 
 urlpatterns = i18n_patterns(
     url(r'^', include('core.urls')),
@@ -24,3 +27,10 @@ urlpatterns = i18n_patterns(
     url(r'^accounts/', include('accounts.urls')),
     url(r'^adminthissite214243214/', admin.site.urls),
 )
+
+if settings.DEBUG:
+    urlpatterns += i18n_patterns(
+        url(r'^media/(?P<path>.*)$', static.serve, {
+            'document_root': settings.MEDIA_ROOT
+        })
+    )

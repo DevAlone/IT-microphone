@@ -6,11 +6,13 @@
 		</div>
 	</div>
 	<div id="content">
-		<div class="lector">
-			<div class="avatar">
-			avatar will be here
-			</div>
-		</div>
+		<!-- <div class="lector"> -->
+				{% if event.owner.profile.avatar and user.profile.avatar.name is not None and user.profile.avatar.url is not None %}
+				<div class="avatar">
+					<img src="{{ event.owner.profile.avatar.url }}">
+				</div>
+				{% endif %}
+		<!-- </div> -->
 		<div class="options">
 			<div class="option">
 				<div class="key">Лектор</div>

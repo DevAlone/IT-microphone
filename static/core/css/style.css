@@ -421,10 +421,35 @@ h2 {
 
 
 .user_profile {
-
+	/*background-color: red;*/
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+  	justify-content: center;
+  	padding: 20px 0;
+	background-color: #f8f8f8;
+	background: linear-gradient(to bottom, #F6F8F9, #fafafa);
+	/*border-bottom: 1px solid #555;*/
+	box-shadow: 0px 2px 2px #AEAEAE;
+	margin-bottom: 30px;
+}
+.user_profile .avatar {
+	margin: 10px;
+}
+.avatar img {
+	object-fit: cover;
+	width: 200px;
+	height: 200px;
+}
+.user_profile .avatar img {
+	object-fit: cover;
+	width: 200px;
+	height: 200px;
 }
 .user_profile .options {
-	width: 50%;
+	min-width: 500px;
 }
 .user_profile .options .option {
 	display: flex;
@@ -435,4 +460,53 @@ h2 {
 .user_profile .options .option .key, 
 .user_profile .options .option .value {
 	padding: 10px;
+}
+
+
+
+
+.pagination-wrapper {
+        display: block;
+        text-align: center;
+}
+.pagination {
+	margin: 10px 0;
+}
+.pagination .button {
+        padding: 7px 10px;
+        /*background-color: #fff;*/
+        display: inline-block;
+        height: 100%;
+        margin: 5px 8px;
+        /*border: 1px solid #ccc;*/
+        /*box-shadow: 0px 0px 0px #AEAEAE;*/
+        font-size: 16px;
+        text-decoration: none;
+        color: #000;
+        transition: 0.3s ease-out;
+}
+.pagination .button:hover {
+        background-color: #fff;
+        color: #000;
+        box-shadow: 1px 1px 2px #AEAEAE;
+}
+.pagination .button:active {
+	box-shadow: none;
+}
+.pagination .active_page {
+        background-color: #eee;
+        color: #000;
+}
+
+.pagination .prev {
+
+}
+.pagination .next {
+
+}
+.pagination .pages {
+
+}
+.pagination .page {
+
 }

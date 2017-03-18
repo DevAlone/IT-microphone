@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib.auth.views import login, logout, password_change
 from django.contrib import auth
 from django.views.generic import TemplateView
