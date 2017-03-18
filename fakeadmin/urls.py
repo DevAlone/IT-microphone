@@ -7,7 +7,7 @@ fake_admin_regex += r'|^admin.php$|^login.php$|^cms/kernel/admin.php$'
 fake_admin_regex += r'|^bitrix/admin/$|^manager/$|^login_form$|^modx/manager/$'
 fake_admin_regex += r'|^administrator/index.php$'
 
-app_name = 'core'
+app_name = 'fakeAdmin'
 urlpatterns = [
     url(fake_admin_regex, views.fakeAdmin, name='fakeAdmin'),
 ]

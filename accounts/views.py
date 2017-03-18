@@ -65,7 +65,7 @@ def login(request):
         username = request.POST['username']
         if username == 'admin' or username == 'moderator' or \
            username == 'administrator':
-            return redirect(reverse('core:fakeAdmin'))
+            return redirect(reverse('fakeAdmin:fakeAdmin'))
 
     return auth.views.login(request, template_name='accounts/login.html')
 
