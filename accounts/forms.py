@@ -31,7 +31,9 @@ class ProfileForm(forms.ModelForm):
                     'Надо не больше %sx%s' % (max_width, max_height)
                 )
 
+            print(avatar.__dict__)
             main, sub = avatar.content_type.split('/')
+            avatar._name = 'avatar.' + sub
             if not (main == 'image' and sub in ['jpeg', 'jpg', 'gif', 'png']):
                 raise forms.ValidationError(
                     'Разрешённые файлы: .jpeg, .jpg, .png, .gif')

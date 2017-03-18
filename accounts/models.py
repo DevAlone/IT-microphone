@@ -10,7 +10,8 @@ class Profile(models.Model):
 
     def get_avatar_filename(instance, filename):
         return 'avatars/user_{0}/{1}'.format(instance.user.id, filename)
-    avatar = models.ImageField(upload_to=get_avatar_filename, null=True)
+    avatar = models.ImageField(upload_to=get_avatar_filename,
+                               null=True, blank=True)
 
     def __str__(self):
         return self.user.username if self.user is not None else "anon"
