@@ -1,5 +1,7 @@
 {% load static %}
 {% load i18n %}
+{% load is_user_subscribed_to_event %}
+
 {% if events.has_other_pages %}
 <div class="pagination-wrapper">
     <div class="pagination">
@@ -64,7 +66,7 @@
 			</div>
 			<div class="buttons">
 				<button class="more-button" onclick="showEventPopup({{ event.pk }})">Подробнее</button>
-				<button class="{% if event.subscribed %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if event.subscribed %}unsubscribeFromEvent(this, {{ event.pk }}){% else %}subscribeToEvent(this, {{ event.pk }}){% endif %}" subscribers="{{ event.anonymous_subscribers }}">{% if event.subscribed %}Отписаться{% else %}Подписаться{% endif %} ({{ event.anonymous_subscribers }})</button>
+				<button class="{% if user|is_user_subscribed_to_event:event %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if user|is_user_subscribed_to_event:event %}unsubscribeFromEvent(this, {{ event.pk }}){% else %}subscribeToEvent(this, {{ event.pk }}){% endif %}" subscribers="{{ event.subscribers.count }}">{% if user|is_user_subscribed_to_event:event %}Отписаться{% else %}Подписаться{% endif %} ({{ event.subscribers.count }})</button>
 			</div>
 		</div>
 	{% empty %}
@@ -130,44 +132,54 @@ function hideEventPopup() {
 	}, 400)
 }
 
-function subscribeToEvent(elem, pk)
-{
-    $.ajax({
+function setSubscribedState(elem, pk, state) {
+	var action_url
+	if(state)
+		action_url = '/ajax/eventSubscribe/' + pk + '/'
+	else
+		action_url = '/ajax/eventUnsubscribe/' + pk + '/'
+	$.ajax({
             type: 'GET',
-            url: '/ajax/eventSubscribe/' + pk + '/',
+            url: action_url,
             success: function(data) {
                     ajaxResult.textContent = data;
+                    $('#ajaxResult').css('background-color', '#ccf')
+                    $('#ajaxResult').fadeIn(1000).delay(1000).fadeOut(1000)
                     elem = $(elem)
-                    elem.removeClass('subscribe-button').addClass('subscribed-button')
-                    elem[0].textContent = "Отписаться (" + elem[0].getAttribute('subscribers') + ")"
-                    elem.unbind('click');
-                    elem[0].onclick = function() {
-                     	unsubscribeFromEvent(elem, pk)
-                    }
+                    if(state)
+                    	elem.removeClass('subscribe-button').addClass('subscribed-button')
+                    else
+                    	elem.removeClass('subscribed-button').addClass('subscribe-button')
+                    subscribers = parseInt(elem[0].getAttribute('subscribers'))
+                    if(state)
+                    	subscribers++
+                    else
+                    	subscribers--
+                    elem[0].setAttribute('subscribers', subscribers)
+                    if(state) {
+	                    elem[0].textContent = "Отписаться (" + subscribers + ")"
+	                    elem.unbind('click');
+	                    elem[0].onclick = function() {
+	                     	unsubscribeFromEvent(elem, pk)
+	                    }
+                	} else {
+                		elem[0].textContent = "Подписаться (" + subscribers + ")"
+	                    elem.unbind('click');
+	                    elem[0].onclick = function() {
+	                     	subscribeToEvent(elem, pk)
+	                    }
+                	}
             },
             error:  function(xhr, str){
                     alert('Возникла ошибка: ' + xhr.responseCode);
             }
 	});
 }
+function subscribeToEvent(elem, pk) {
+ 	setSubscribedState(elem, pk, true)   
+}
 function unsubscribeFromEvent(elem, pk)
 {
-    $.ajax({
-            type: 'GET',
-            url: '/ajax/eventUnsubscribe/' + pk + '/',
-            success: function(data) {
-                    ajaxResult.textContent = data;
-                    elem = $(elem)
-                    elem.removeClass('subscribed-button').addClass('subscribe-button')
-                    elem[0].textContent = "Подписаться (" + elem[0].getAttribute('subscribers') + ")"
-                    elem.unbind('click');
-                    elem[0].onclick = function() {
-                     	subscribeToEvent(elem, pk)
-                    }
-            },
-            error:  function(xhr, str){
-                    alert('Возникла ошибка: ' + xhr.responseCode);
-            }
-	});
+    setSubscribedState(elem, pk, false)
 }
 </script>

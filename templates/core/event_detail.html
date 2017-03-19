@@ -1,8 +1,9 @@
+{% load is_user_subscribed_to_event %}
 <div id="event_detail_frame">
 	<div class="header">
 		<h1 class="theme">{{ event.theme }}</h1>
 		<div class="button-wrapper">
-			<button class="{% if event.subscribed %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if event.subscribed %}unsubscribeToEvent(this, {{ event.pk }}){% else %}subscribeToEvent(this, {{ event.pk }}){% endif %}" subscribers="{{ event.anonymous_subscribers }}">{% if event.subscribed %}Отписаться{% else %}Подписаться{% endif %} ({{ event.anonymous_subscribers }})</button>
+			<button class="{% if user|is_user_subscribed_to_event:event %}subscribed-button{% else %}subscribe-button{% endif %}" onclick="{% if user|is_user_subscribed_to_event:event %}unsubscribeFromEvent(this, {{ event.pk }}){% else %}subscribeToEvent(this, {{ event.pk }}){% endif %}" subscribers="{{ event.subscribers.count }}">{% if user|is_user_subscribed_to_event:event %}Отписаться{% else %}Подписаться{% endif %} ({{ event.subscribers.count }})</button>
 		</div>
 	</div>
 	<div id="content">

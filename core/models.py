@@ -16,7 +16,7 @@ class Event(models.Model):
     event_start_time = models.DateTimeField()
     event_end_time = models.DateTimeField()
     need_subscribers = models.IntegerField()
-    anonymous_subscribers = models.IntegerField(default=0)
+    subscribers = models.ManyToManyField(User)
 
     def __str__(self):
         return self.theme

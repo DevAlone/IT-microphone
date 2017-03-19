@@ -30,6 +30,22 @@
 	color: #AEAEAE;
 }
 
+#ajaxResult {
+	position: fixed;
+	display: none;
+	bottom: 15px;
+	right: 25px;
+	min-width: 75px;
+	min-height: 30px;
+	line-height: 30px;
+	text-align: center;
+
+	background-color: #eee;
+	padding: 10px;
+	border-radius: 3px;
+	box-shadow: 2px 2px 2px #AEAEAE;
+}
+
 body {
 	background-color: #F6F8F9;
 	padding: 0;

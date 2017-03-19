@@ -15,7 +15,7 @@ class EventForm(ModelForm):
 
     def save(self, commit=True):
 
-        return super(EventAddForm, self).save(commit=commit)
+        return super(EventForm, self).save(commit=commit)
 
     class Meta:
         model = Event
