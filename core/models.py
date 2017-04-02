@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from chat.models import Chat
+
 
 class Event(models.Model):
     owner = models.ForeignKey(User, related_name='owner',
@@ -18,11 +20,16 @@ class Event(models.Model):
     need_subscribers = models.IntegerField()
     subscribers = models.ManyToManyField(User)
 
+    chat = models.OneToOneField(Chat, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.theme
 
     def save(self, *args, **kwargs):
-
+        if not (hasattr(self, 'chat') and self.chat is not None):
+            self.chat = Chat.objects.create()
+        if self.need_subscribers < 0:
+            raise ValueError("")
         if self.event_start_time >= self.event_end_time:
             raise ValueError(
                 "Дата начала не может быть больше или равна дате конца события")

@@ -73,8 +73,9 @@ def addEvent(request):
             event.owner = request.user
             event.save()
 
-            return HttpResponseRedirect(reverse('core:event_detail',
-                                                kwargs={'pk': event.pk}))
+            return HttpResponseRedirect(
+                reverse('accounts:profile',
+                        kwargs={'username': request.user.username}))
     else:
         form = EventAddForm()
 
