@@ -38,6 +38,7 @@
 #event_detail_frame 
 #content > div {
 	margin: 10px;
+	box-sizing: border-box;
 }
 
 #event_detail_frame 
@@ -61,13 +62,15 @@
 #event_detail_frame .option .value {
 
 }
-#event_detail_frame .description, 
+#event_detail_frame .description {
+	width: 90%;
+	padding: 10px;
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
 #event_detail_frame .chat {
 	width: 90%;
-
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
+	padding: 0;
 }
 
 #event_detail_frame 
@@ -96,3 +99,82 @@
 #event_detail_frame .subscribed-button:hover {
 	background-color: #ddd !important;
 }
+
+#eventChat {
+	margin-top: 30px !important;
+}
+/* event chat comment */
+.chat .comments_count {
+	/*border-bottom: 1px solid #ddd;*/
+	padding-bottom: 5px 0;
+}
+.chat .messages {
+
+}
+.chat .message {
+	position: relative;
+	margin: 15px 0;
+	padding: 10px;
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
+
+.chat .message .top {
+	padding: 0 0 10px 0;
+	border-bottom: 1px solid #eee;
+}
+.chat .message .author {
+
+}
+.chat .message .author a {
+	text-decoration: none;
+	color: #000;
+	transition: 0.3s ease-in;
+}
+.chat .message .author a:hover {
+	color: #00f;
+}
+.chat .message .pub_date {
+	float: right;
+	color: #aeaeae;
+}
+.chat .message .author, 
+.chat .message .pub_date {
+	display: inline-block;
+}
+.chat .message .text {
+	padding: 10px 0;
+}
+.chat .message .rating {
+	text-align: right;
+}
+.chat .message .rating .value {
+	margin: 0 5px ;
+	vertical-align: middle;
+}
+.chat .message .rating a {
+	text-decoration: none;
+	color: #000;
+	font-size: 16px;
+	transition: 0.3s ease-in;
+}
+.chat .message .rating .plus:hover {
+	color: #0f0;
+}
+.chat .message .rating .minus:hover {
+	color: #f00;
+}
+.chat .message .likes_count, 
+.chat .message .dislikes_count {
+	display: inline-block;
+}
+.chat .message .likes_count {
+
+}
+.chat .message .dislikes_count {
+
+}
+.chat .update_button {
+
+}
+/* /event chat comment */

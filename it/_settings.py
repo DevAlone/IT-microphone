@@ -25,7 +25,7 @@ SECRET_KEY = 'q!1c-#hh)4!kzz+biqrd=%7)3_)&62psb72ce42duj#q$^g_45'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['itm.d3d.info']
+ALLOWED_HOSTS = ['itm.d3d.info', '127.0.0.1']
 
 
 # Application definition

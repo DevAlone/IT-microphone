@@ -7,13 +7,9 @@ from django.http import JsonResponse
 
 
 def getMessages(request, pk):
-#    event = get_object_or_404(Event, pk=pk)
-    chat = get_object_or_404(Chat, pk=pk)  # event.chat
+    chat = get_object_or_404(Chat, pk=pk)
     messages = list(chat.chatmessage_set.values(
         'author', 'text', 'pub_date', 'likes_count', 'dislikes_count'))
-#    if messages.count() < 1:
-#        messages = None
-    print(messages)
 
     for message in messages:
         message['author'] = model_to_dict(
