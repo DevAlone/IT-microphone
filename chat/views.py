@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_protect
 def getMessages(request, pk):
     chat = get_object_or_404(Chat, pk=pk)
     messages = list(chat.chatmessage_set.values(
-        'author', 'text', 'pub_date', 'likes_count', 'dislikes_count'))
+        'pk', 'author', 'text', 'pub_date', 'likes_count', 'dislikes_count'))
 
     for message in messages:
         message['author'] = model_to_dict(
@@ -26,7 +26,6 @@ def getMessages(request, pk):
     return JsonResponse(data)
 
 
-# this shit doesn't work
 @csrf_protect
 @login_required
 @transaction.atomic
@@ -39,7 +38,9 @@ def messageVote(request, pk, action):
     print()
     if action == str(1):
         if not message.likes.filter(pk=request.user.pk).exists():
-            message.dislikes.remove(request.user)
+            if message.dislikes.filter(pk=request.user.pk).exists():
+                message.dislikes.remove(request.user)
+                message.dislikes_count -= 1
             message.likes.add(request.user)
             message.likes_count += 1
             state = True
@@ -47,13 +48,16 @@ def messageVote(request, pk, action):
             text = 'Ты уже оценил комментарий'
     else:
         if not message.dislikes.filter(pk=request.user.pk).exists():
-            message.likes.remove(request.user)
+            if message.likes.filter(pk=request.user.pk).exists():
+                message.likes.remove(request.user)
+                message.likes_count -= 1
             message.dislikes.add(request.user)
-            message.likes_count += 1
+            message.dislikes_count += 1
             state = True
         else:
             text = 'Ты уже оценил комментарий'
 
+    message.save()
     data = {
         'state': state,
         'text': text,

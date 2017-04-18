@@ -54,12 +54,24 @@
 	<div id="content">
 	<div id="beta">beta version</div>
 	<div id="ajaxResult"></div>
-	{% block header %}
+	<div class="sidebar">
+		<div class="item add-event-button">
+			<a href="{% url 'core:addEvent' %}">Добавить событие</a>
+		</div>
+		<div class="item">
+			<a href="{% url 'core:index' %}">some page</a>
+		</div>
+		<div class="item">
+			<a href="{% url 'core:index' %}">some page</a>
+		</div>
+		<div class="item">
+			<a href="{% url 'core:index' %}">some page</a>
+		</div>
+	</div>
+	<div class="posts">
+		{% block header %}
 	<header>
 		<div id="main-menu">
-			<div class="add-event-button">
-				<a href="{% url 'core:addEvent' %}">Добавить событие</a>
-			</div>
 			<ul>
 				<li><a href="{% url 'core:eventList' category='future' %}">Предстоящие события</a></li>
 				<li><a href="{% url 'core:eventList' category='past' %}">Прошедшие события</a></li>
@@ -96,6 +108,7 @@
 	</header>
 	{% endblock %}
 {% block content %}{% endblock %}
+	</div>
 	</div>
 
 	<script src="{% static 'core/js/bootstrap.min.js' %}"></script>

@@ -53,9 +53,9 @@
 					</div>
 					<div class="text">{{ message.text }}</div>
 					<div class="rating">
-						<a class="plus" href="#" onclick="rateMessage({{ message.pk }}, 1)">+</a>
+						<a class="plus" href="#" onclick="rateMessage({{ message.pk }}, 1, this)">+</a>
 						<span class="value" alt="+{{ message.likes_count }} {{ message.dislikes_count }}">{{ message.likes_count|sub:message.dislikes_count }}</span>
-						<a class="minus" href="#" onclick="rateMessage({{ message.pk }}, 0)">-</a>
+						<a class="minus" href="#" onclick="rateMessage({{ message.pk }}, 0, this)">-</a>
 					</div>
 				</div>
 				{% empty %}
@@ -66,11 +66,14 @@
 		</div>
 		<script>
 		var n = 0
-		function rateMessage(pk, action) {
+		function rateMessage(pk, action, element) {
 			$.ajax({
 				type: 'POST', 
 				url: '{% url 'chat:messageVote' pk=999 action=8 %}'.replace('999', pk).replace('8', action),
 				success: function(data) {
+					var ratingElem = $(element).parent().children('.value');
+
+					alert(ratingElem);
 
 				},
 				error:  function(xhr, str){
@@ -123,7 +126,7 @@
 												tag: 'a',
 												class: 'plus',
 												href: '#',
-												onclick: "rateMessage(message.pk, 1)",
+												onclick: "rateMessage(" + message.pk + ", 1, this)",
 												content: '+',
 											},
 											{
@@ -135,7 +138,7 @@
 											{
 												tag: 'a',
 												class: 'minus',
-												onclick: "rateMessage(message.pk, 0)",
+												onclick: "rateMessage(" + message.pk + ", 0, this)",
 												href: '#',
 												content: '-',
 											}
