@@ -55,57 +55,80 @@
 	<div id="beta">beta version</div>
 	<div id="ajaxResult"></div>
 	<div class="sidebar">
+	{% if request.user.is_authenticated %}
+		
+			<div class="profile-button">
+				<a href="{% url 'accounts:profile' username=request.user.username %}">{{ request.user.username }}</a>
+			</div>
+			<div class="more-button" onclick="openFloatingMenu()">&lt; &gt;</div>
+			<div class="edit-profile-button">
+				<a href="{% url 'accounts:editProfile' %}">Изменить</a>
+			</div>
+		{% else %}
+		<div class="login-button">
+			<a href="{% url 'accounts:login' %}">Войти</a>
+		</div>
+		{% endif %}
+
 		<div class="item add-event-button">
 			<a href="{% url 'core:addEvent' %}">Добавить событие</a>
 		</div>
 		<div class="item">
-			<a href="{% url 'core:index' %}">some page</a>
-		</div>
-		<div class="item">
-			<a href="{% url 'core:index' %}">some page</a>
-		</div>
-		<div class="item">
-			<a href="{% url 'core:index' %}">some page</a>
-		</div>
-	</div>
-	<div class="posts">
-		{% block header %}
-	<header>
-		<div id="main-menu">
-			<ul>
-				<li><a href="{% url 'core:eventList' category='future' %}">Предстоящие события</a></li>
-				<li><a href="{% url 'core:eventList' category='past' %}">Прошедшие события</a></li>
+			<div class="hide_show_button">&gt;</div>
+			<a href="{% url 'core:index' %}">События</a>
+			<div class="submenu">
+				<div class="subitem">
+					<a href="{% url 'core:eventList' category='future' %}">Предстоящие</a>
+				</div>
+				<div class="subitem">
+					<a href="{% url 'core:eventList' category='past' %}">Прошедшие</a>
+				</div>
 				{% if request.user.is_authenticated %}
-				<li><a href="{% url 'core:eventList' category='my' %}">Мои события</a></li>
+				<div class="subitem">
+					<a href="{% url 'core:eventList' category='my' %}">Мои</a>
+				</div>
 				{% endif %}
-			</ul>
-			{% if request.user.is_authenticated %}
-			<div class="floating-menu">
-				<div class="profile-button">
-					<a href="{% url 'accounts:profile' username=request.user.username %}">{{ request.user.username }}</a>
-				</div>
-				<div class="more-button" onclick="openFloatingMenu()">&lt; &gt;</div>
-				<div class="edit-profile-button">
-					<a href="{% url 'accounts:editProfile' %}">Изменить</a>
-				</div>
-				<div class="logout-button">
-					<a href="{% url 'accounts:logout' %}">Выйти</a>
-				</div>
 			</div>
-			<script>
-
-			function openFloatingMenu()
-			{
-				$('#main-menu .floating-menu').toggleClass('opened-floating-menu')
-			}
-			</script>
-			{% else %}
-			<div class="login-button">
-				<a href="{% url 'accounts:login' %}">Войти</a>
-			</div>
-			{% endif %}
 		</div>
-	</header>
+		<div class="item">
+			<div class="hide_show_button">&gt;</div>
+			<a href="{% url 'core:index' %}">Обсуждения</a>
+			<div class="submenu">
+				<div class="subitem">
+				<a href="{% url 'core:eventList' category='future' %}">Интересные</a>
+				</div>
+				<div class="subitem">
+					<a href="{% url 'core:eventList' category='past' %}">Новые</a>
+				</div>
+				{% if request.user.is_authenticated %}
+				<div class="subitem">
+					<a href="{% url 'core:eventList' category='my' %}">Мои</a>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+
+		{% if request.user.is_authenticated %}
+			<div class="logout-button">
+				<a href="{% url 'accounts:logout' %}">Выйти</a>
+			</div>
+		{% endif %}
+	</div>
+	<script>
+	/* sidebar items */
+	function make_sidebar_menu() {
+		$('.sidebar .item .hide_show_button').click(function() {
+			$(this).parent().children('.submenu').slideToggle(250);
+			$(this).text(function(i, text){
+			  return text === ">" ? "<" : ">";
+			});
+		});
+
+	}
+	make_sidebar_menu();
+	</script>
+	<div class="posts">
+	{% block header %}
 	{% endblock %}
 {% block content %}{% endblock %}
 	</div>

@@ -36,23 +36,56 @@ button {
     margin-left: 250px;
 }
 .sidebar .item {
-    min-height: 50px;
-    text-align: center;
+    position: relative;
+    /*height: 50px;*/
+    overflow: hidden;
+    text-align: left;
     transition: 0.25s;
+    transition: height 1s;
+    /*transition: height 0.25s;*/
+    /*background-color: red;*/
 }
-.sidebar .item a {
+.sidebar .item .submenu {
+    display: none;
+}
+.sidebar .item .submenu .subitem {
+    
+}
+.sidebar .item .submenu .subitem a {
+    padding-left: 25px;    
+}
+.sidebar .item > a,
+.sidebar .item .subitem a{
     display: block;
     text-decoration: none;
     color: #000;
-    min-height: 50px;
+    height: 50px;
     line-height: 50px;
+    padding-left: 10px;
     transition: 0.25s;
 }
-.sidebar .item:hover {
+.sidebar .item > a:hover,
+.sidebar .item .subitem a:hover {
     background-color: #eee;
-    
-}
-.sidebar .item:hover a{
-    /*background-color: #eee;*/
     color: #000;
+}
+.sidebar .item .hide_show_button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    /*line-height: 50px;*/
+    /*text-align: center;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*background-color: blue;*/
+    transition: 0.25s;
+}
+
+.sidebar .item .hide_show_button:hover {
+    transform: rotate(90deg);
+    background-color: #eee;
+    cursor: pointer;
 }
