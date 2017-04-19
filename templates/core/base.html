@@ -64,15 +64,15 @@
 			<div class="edit-profile-button">
 				<a href="{% url 'accounts:editProfile' %}">Изменить</a>
 			</div>
+		<div class="item add-event-button">
+			<a href="{% url 'core:addEvent' %}">Добавить событие</a>
+		</div>
 		{% else %}
 		<div class="login-button">
 			<a href="{% url 'accounts:login' %}">Войти</a>
 		</div>
 		{% endif %}
 
-		<div class="item add-event-button">
-			<a href="{% url 'core:addEvent' %}">Добавить событие</a>
-		</div>
 		<div class="item">
 			<div class="hide_show_button">&gt;</div>
 			<a href="{% url 'core:index' %}">События</a>
