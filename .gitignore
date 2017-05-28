@@ -1,4 +1,9 @@
+TODO
+it/_settings.py
 it/settings.py
+it/debug_settings.py
+it/production_settings.py
+it/_urls.py
 it/gunicorn.conf.py
 .*
 __pycache__
