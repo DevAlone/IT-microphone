@@ -45,7 +45,7 @@
 		<div id="eventChat" class="chat">
 			<div class="comments_count">{% trans 'Количество комментариев' %} - {{ event.chat.count_messages }}</div>
 			<div class="messages">
-			
+
 			</div>
 			<script>updateChat(eventChat, {{ event.chat.pk }}, 0, 50);</script>
 			<a class="update_button" href="#" onclick="updateChat(eventChat, {{ event.chat.pk }}, 0, 50)">Обновить</a>
@@ -72,7 +72,7 @@
 					showNotification(data.text);
 					if(!data.state)
 						return;
-					updateChat();
+					updateChat(eventChat, {{ event.chat.pk }}, 0, 50);
 					$('#add_comment_form ').find("input[type=text], textarea").val("");
 				},
 				error: function(xhr, str) {
