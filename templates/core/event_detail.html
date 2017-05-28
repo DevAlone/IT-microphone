@@ -1,5 +1,7 @@
 {% load is_user_subscribed_to_event %}
 {% load mathfilters %}
+{% load i18n %}
+
 <div id="event_detail_frame">
 	<div class="header">
 		<h1 class="theme">{{ event.theme }}</h1>
@@ -41,9 +43,9 @@
 		{{ event.description }}
 		</div>
 		<div id="eventChat" class="chat">
-			<div class="comments_count">Количество комментариев - {{ event.chat.count_messages }}</div>
+			<div class="comments_count">{% trans 'Количество комментариев' %} - {{ event.chat.count_messages }}</div>
 			<div class="messages">
-				{% for message in event.chat.chatmessage_set.all %}
+				{% for message in chatMessages %}
 				<div class="message">
 					<div class="top">
 						<div class="author">
@@ -64,7 +66,37 @@
 			</div>
 			<a class="update_button" href="#" onclick="updateChat()">Обновить</a>
 		</div>
+		<form id="add_comment_form" action="." method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="{% trans 'Отправить' %}">
+		</form>
 		<script>
+		$('#add_comment_form').on('submit', function(event){
+		    event.preventDefault();
+		    addComment($(this).serialize());
+		});
+		</script>
+
+		<script>
+		function addComment(formData) {
+			$.ajax({
+				type: 'POST',
+				url: '{% url 'chat:addMessage' pk=event.chat.pk %}',
+				data: formData,
+				success: function(data) {
+					showNotification(data.text);
+					if(!data.state)
+						return;
+					updateChat();
+					$('#add_comment_form ').find("input[type=text], textarea").val("");
+				},
+				error: function(xhr, str) {
+					alert('Возникла ошибка: ' + xhr.responseCode);
+				}
+			});
+		}
+
 		var n = 0
 		function rateMessage(pk, action, element) {
 			$.ajax({
@@ -73,8 +105,12 @@
 				success: function(data) {
 					var ratingElem = $(element).parent().children('.value');
 
-					alert(ratingElem);
-
+					if(!data.state) {
+						showNotification(data.text);
+						return;
+					}
+					var rating = parseInt(data.likes_count) - parseInt(data.dislikes_count);
+					ratingElem.text(rating);
 				},
 				error:  function(xhr, str){
 					alert('Возникла ошибка: ' + xhr.responseCode);

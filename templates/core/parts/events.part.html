@@ -142,9 +142,7 @@ function setSubscribedState(elem, pk, state) {
             type: 'GET',
             url: action_url,
             success: function(data) {
-                    ajaxResult.textContent = data;
-                    $('#ajaxResult').css('background-color', '#ccf')
-                    $('#ajaxResult').fadeIn(1000).delay(1000).fadeOut(1000)
+                    showNotification(data);
                     elem = $(elem)
                     if(state)
                     	elem.removeClass('subscribe-button').addClass('subscribed-button')

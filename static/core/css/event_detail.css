@@ -68,7 +68,8 @@
 	border: 1px solid #eee;
 	border-radius: 4px;
 }
-#event_detail_frame .chat {
+#event_detail_frame .chat, 
+#add_comment_form {
 	width: 90%;
 	padding: 0;
 }
@@ -144,6 +145,7 @@
 }
 .chat .message .text {
 	padding: 10px 0;
+	overflow: hidden;
 }
 .chat .message .rating {
 	text-align: right;
@@ -177,4 +179,11 @@
 .chat .update_button {
 
 }
+
+
+/* event chat */
+#add_comment_form {
+	/*width: 90%;*/
+}
+/* /event chat */
 /* /event chat comment */

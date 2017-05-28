@@ -7,6 +7,8 @@ from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Event
 from .forms import EventAddForm, EventEditForm
+from chat.forms import ChatMessageAddForm
+from chat.models import ChatMessage
 
 
 def index(request):
@@ -55,9 +57,14 @@ def eventListView(request, category):
 def eventDetail(request, pk=None):
     event = get_object_or_404(Event, pk=pk)
     event.subscribed = True
+    form = ChatMessageAddForm()
+    chatMessages = ChatMessage.objects.filter(chat=event.chat).order_by('pk')
+
 
     return render(request, 'core/event_detail.html', {
         'event': event,
+        'form': form,
+        'chatMessages': chatMessages,
     })
 
 

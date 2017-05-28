@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from core.models import Event
+import sys
+from django.shortcuts import get_object_or_404
+# from core.models import Event
 from django.forms.models import model_to_dict
 from .models import Chat, ChatMessage
 from django.contrib.auth.models import User
@@ -27,9 +28,13 @@ def getMessages(request, pk):
 
 
 @csrf_protect
-@login_required
 @transaction.atomic
 def messageVote(request, pk, action):
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'state': False,
+            'text': 'authentication is required',
+        })
     message = get_object_or_404(ChatMessage, pk=pk)
     state = False
     text = ""
@@ -66,3 +71,37 @@ def messageVote(request, pk, action):
     }
 
     return JsonResponse(data)
+
+
+@csrf_protect
+@transaction.atomic
+def addMessage(request, pk):
+    if not request.user.is_authenticated or request.method != 'POST':
+        return JsonResponse({
+            'state': False,
+            'text': 'необходима авторизация',
+        })
+    text = request.POST.get('text')
+    if len(text) > 10000 or sys.getsizeof(text) > 40000:
+        return JsonResponse({
+            'state': False,
+            'text': 'много букаф',
+        })
+
+
+    chat = get_object_or_404(Chat, pk=pk)
+    message = ChatMessage(chat=chat, author=request.user, text=text)
+    message.save()
+
+    return JsonResponse({
+        'state': True,
+        'text': 'спасибо за комментарий',
+        'chatMessage': {
+            'chatId': chat.pk,
+            'authorId': request.user.pk,
+            'text': message.text,
+            'pub_date': message.pub_date,
+            'likes_count': message.likes_count,
+            'dislikes_count': message.dislikes_count,
+        }
+    })

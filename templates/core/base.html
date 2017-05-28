@@ -135,5 +135,14 @@
 	</div>
 
 	<script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+
+	<script>
+	function showNotification(text) {
+		// TODO: добавить типы уведомлений(ошибка, предупреждение и т.д.)
+		ajaxResult.textContent = text;
+        $('#ajaxResult').css('background-color', '#ccf')
+        $('#ajaxResult').fadeIn(500).delay(1000).fadeOut(500)
+	}
+	</script>
 </body>
 </html>

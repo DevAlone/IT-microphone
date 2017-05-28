@@ -16,3 +16,6 @@ class ChatMessage(models.Model):
                                       related_name='chat_message_dislikes')
     likes_count = models.IntegerField(default=0)
     dislikes_count = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('-pk', )
