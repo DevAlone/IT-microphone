@@ -1,5 +1,4 @@
 TODO
-it/_settings.py
 it/settings.py
 it/debug_settings.py
 it/production_settings.py
