@@ -17,5 +17,11 @@ class ChatMessage(models.Model):
     likes_count = models.IntegerField(default=0)
     dislikes_count = models.IntegerField(default=0)
 
+    def save(self, *args, **kwargs):
+        if self.chat is not None:
+            self.chat.count_messages += 1
+        self.chat.save()
+        super(ChatMessage, self).save(*args, **kwargs)
+
     class Meta:
         ordering = ('-pk', )

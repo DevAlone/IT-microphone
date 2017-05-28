@@ -17,6 +17,11 @@
 	<link rel="stylesheet" href="{% static 'core/css/event_detail.css' %}" >
 	<script type="text/javascript" src="{% static 'core/js/jquery-ui.min.js' %}"></script>
 	<script src="{% static 'core/js/dom_generator.js' %}" charset="utf-8"></script>
+	<script src="{% static 'core/js/core.js' %}" charset="utf-8"></script>
+	<script src="{% static 'core/js/urls.js' %}" charset="utf-8"></script>
+	<script src="{% static 'core/js/events.js' %}" charset="utf-8"></script>
+	<script src="{% static 'core/js/chat.js' %}" charset="utf-8"></script>
+
 	<script>
 		function getCookie(name) {
 		    var cookieValue = null;
@@ -49,7 +54,9 @@
 	{% block head %}{% endblock %}
 </head>
 <body>
+{% if debug %}
 <!-- Yandex.Metrika counter --> <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter43414749 = new Ya.Metrika({ id:43414749, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/43414749" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+{% endif %}
 
 	<div id="content">
 	<div id="beta">beta version</div>
@@ -116,15 +123,6 @@
 	</div>
 	<script>
 	/* sidebar items */
-	function make_sidebar_menu() {
-		$('.sidebar .item .hide_show_button').click(function() {
-			$(this).parent().children('.submenu').slideToggle(250);
-			$(this).text(function(i, text){
-			  return text === ">" ? "<" : ">";
-			});
-		});
-
-	}
 	make_sidebar_menu();
 	</script>
 	<div class="posts">
@@ -135,14 +133,5 @@
 	</div>
 
 	<script src="{% static 'core/js/bootstrap.min.js' %}"></script>
-
-	<script>
-	function showNotification(text) {
-		// TODO: добавить типы уведомлений(ошибка, предупреждение и т.д.)
-		ajaxResult.textContent = text;
-        $('#ajaxResult').css('background-color', '#ccf')
-        $('#ajaxResult').fadeIn(500).delay(1000).fadeOut(500)
-	}
-	</script>
 </body>
 </html>

@@ -45,26 +45,10 @@
 		<div id="eventChat" class="chat">
 			<div class="comments_count">{% trans 'Количество комментариев' %} - {{ event.chat.count_messages }}</div>
 			<div class="messages">
-				{% for message in chatMessages %}
-				<div class="message">
-					<div class="top">
-						<div class="author">
-							<a class="" href="{% url 'accounts:profile' message.author.username %}">{{ message.author.username }}</a>
-						</div>
-						<div class="pub_date">{{ message.pub_date }}</div>
-					</div>
-					<div class="text">{{ message.text }}</div>
-					<div class="rating">
-						<a class="plus" href="#" onclick="rateMessage({{ message.pk }}, 1, this)">+</a>
-						<span class="value" alt="+{{ message.likes_count }} {{ message.dislikes_count }}">{{ message.likes_count|sub:message.dislikes_count }}</span>
-						<a class="minus" href="#" onclick="rateMessage({{ message.pk }}, 0, this)">-</a>
-					</div>
-				</div>
-				{% empty %}
-				Комментариев нет. Похоже вы будете первым!
-				{% endfor %}
+			
 			</div>
-			<a class="update_button" href="#" onclick="updateChat()">Обновить</a>
+			<script>updateChat(eventChat, {{ event.chat.pk }}, 0, 50);</script>
+			<a class="update_button" href="#" onclick="updateChat(eventChat, {{ event.chat.pk }}, 0, 50)">Обновить</a>
 		</div>
 		<form id="add_comment_form" action="." method="POST">
 			{% csrf_token %}
@@ -98,131 +82,7 @@
 		}
 
 		var n = 0
-		function rateMessage(pk, action, element) {
-			$.ajax({
-				type: 'POST', 
-				url: '{% url 'chat:messageVote' pk=999 action=8 %}'.replace('999', pk).replace('8', action),
-				success: function(data) {
-					var ratingElem = $(element).parent().children('.value');
-
-					if(!data.state) {
-						showNotification(data.text);
-						return;
-					}
-					var rating = parseInt(data.likes_count) - parseInt(data.dislikes_count);
-					ratingElem.text(rating);
-				},
-				error:  function(xhr, str){
-					alert('Возникла ошибка: ' + xhr.responseCode);
-	            }
-			});
-		}
-			function updateChat() {
-				$.ajax({
-		            type: 'GET',
-		            url: '{% url 'chat:getMessages' 999 %}'.replace('999', {{ event.chat.pk }}),
-		            success: function(data) {
-		                comments_count = data['count_messages'];
-		                messagesDom = []
-		                for (var i = data['messages'].length - 1; i >= 0; i--) {
-		                	message = data['messages'][i];
-		                	author = message.author;
-
-		                	messageDom = {
-								class: 'message',
-								content: [
-									{
-										class: 'top',
-										content: [
-											{
-												class: 'author',
-												content: [
-													{
-														tag: 'a',
-														class: '',
-														href: '{% url 'accounts:profile' 'admin' %}'.replace('admin', author.username),
-														content: author.first_name.length > 0 ? author.first_name : author.username,
-													},
-												],
-											}, 
-											{
-												class: 'pub_date',
-												content: message['pub_date'],
-											},
-										]
-									},
-									{
-										class: 'text',
-										content: message['text'],
-									}, 
-									{
-										class: 'rating',	
-										content: [
-											{
-												tag: 'a',
-												class: 'plus',
-												href: '#',
-												onclick: "rateMessage(" + message.pk + ", 1, this)",
-												content: '+',
-											},
-											{
-												tag: 'span',
-												class: 'value',
-												content: message.likes_count - message.dislikes_count,
-												alt: "+" + message.likes_count + " -" + message.dislikes_count,
-											},
-											{
-												tag: 'a',
-												class: 'minus',
-												onclick: "rateMessage(" + message.pk + ", 0, this)",
-												href: '#',
-												content: '-',
-											}
-										]
-										// content: [
-										// 	{
-										// 		class: 'likes_count',
-										// 		content: message['likes_count'],
-										// 	}, 
-										// 	{
-										// 		class: 'dislikes_count',
-										// 		content: message['dislikes_count'],
-										// 	}, 
-										// ]
-									}
-								], //['text'],
-							}; 
-							
-		                	messagesDom.push(messageDom)
-		                };
-						chatDom = [
-							{
-								class: 'comments_count',
-								content: 'Количество комментариев - ' + comments_count,
-							},
-							{
-								class: 'messages',
-								content: messagesDom,
-							},
-							{
-								tag: 'a',
-								href: '#',
-								onclick: 'updateChat()',
-								content: 'Обновить',
-							},
-						]
-						eventChat.innerHTML = ''
-						generateDOM(chatDom, eventChat);
-		            },
-		            error:  function(xhr, str){
-		                alert('Возникла ошибка: ' + xhr.responseCode);
-		            }
-				});
-
-				
-
-				
-			}
+		
 		</script>
 	</div>
 </div>

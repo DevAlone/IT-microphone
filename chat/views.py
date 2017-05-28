@@ -5,14 +5,19 @@ from django.forms.models import model_to_dict
 from .models import Chat, ChatMessage
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.views.decorators.csrf import csrf_protect
 
 
 def getMessages(request, pk):
+    offset = int(request.GET.get('offset', 0))
+    count = int(request.GET.get('count', 50))
     chat = get_object_or_404(Chat, pk=pk)
-    messages = list(chat.chatmessage_set.values(
+    chat_messages = \
+        ChatMessage.objects.filter(chat=chat).order_by('pk')[offset:offset+count]
+
+    messages = list(chat_messages.values(
         'pk', 'author', 'text', 'pub_date', 'likes_count', 'dislikes_count'))
 
     for message in messages:
