@@ -64,12 +64,11 @@
 	<div class="sidebar">
 	{% if request.user.is_authenticated %}
 		
-			<div class="profile-button">
+			<div class="item profile-button">
 				<a href="{% url 'accounts:profile' username=request.user.username %}">{{ request.user.username }}</a>
 			</div>
-			<div class="more-button" onclick="openFloatingMenu()">&lt; &gt;</div>
-			<div class="edit-profile-button">
-				<a href="{% url 'accounts:editProfile' %}">Изменить</a>
+			<div class="item edit-profile-button">
+				<a href="{% url 'accounts:editProfile' %}">Редактировать профиль</a>
 			</div>
 		<div class="item add-event-button">
 			<a href="{% url 'core:addEvent' %}">Добавить событие</a>
@@ -97,6 +96,7 @@
 				{% endif %}
 			</div>
 		</div>
+		<!-- 
 		<div class="item">
 			<div class="hide_show_button">&gt;</div>
 			<a href="{% url 'core:index' %}">Обсуждения</a>
@@ -114,9 +114,10 @@
 				{% endif %}
 			</div>
 		</div>
+		-->
 
 		{% if request.user.is_authenticated %}
-			<div class="logout-button">
+			<div class="item logout-button">
 				<a href="{% url 'accounts:logout' %}">Выйти</a>
 			</div>
 		{% endif %}
